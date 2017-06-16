@@ -7,6 +7,7 @@ while True:
 
     choice = displayMenu(menuItems)
 
+    if choice == 1:
 
     if choice == 5:
         break

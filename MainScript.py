@@ -1,4 +1,12 @@
-# Her skriver vi hovedmenuen 
-#Sut en pik
+from displayMenu import displayMenu
 
-#Mikkel jeg ejer det her shit nu
+
+menuItems = ['Load data.', 'Aggregate data.', 'Display statistics.', 'Visualize electricity consumption.', 'Quit.']
+
+while True:
+
+    choice = displayMenu(menuItems)
+
+
+    if choice == 5:
+        break

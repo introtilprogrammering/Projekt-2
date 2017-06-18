@@ -1,11 +1,10 @@
 #Import datafil
 import os
 import pandas as pd
-os.chdir('/Users/michael/documents/GitHub/Projekt-2')
 
-def load_measurements(filename, fmode):
+def load_measurements(fileName, fmode):
     #Ved at bruge pandas læses datafilen
-    data = pd.read_csv(filename, header = None)
+    data = pd.read_csv(fileName, header = None)
     
     #Laver header til datasættet
     data.columns = ["year", "month", "day", "hour", "minute", "second", "zone1", 
@@ -50,5 +49,5 @@ def load_measurements(filename, fmode):
     
     return (tvec, data)
 
-[tvec,data] = load_measurements("2008.csv", "forward fill")
+#[tvec,data] = load_measurements("2008.csv", "forward fill")
 

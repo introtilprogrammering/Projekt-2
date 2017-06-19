@@ -1,5 +1,5 @@
 #Import datafil
-import os
+
 import pandas as pd
 
 def load_measurements(fileName, fmode):

@@ -1,7 +1,7 @@
 ## Data aggregation function
 
 #slettes
-
+import matplotlib.pyplot as plt
 from dataload import load_measurements
 import pandas as pd
 import numpy as np
@@ -21,11 +21,8 @@ if periode == 'month':
         someData = data[tvec.month == i+1]
         someTvec = tvec[tvec.month == i+1]
         data_a[i] = someData.sum(axis = 0)
-    data_a = pd.DataFrame(data = data_a, index = )
-#        someData = someData.sum(axis=0)
-#        data_a[i] = someData
-#        a = pd.DataFrame(columns=[ 'Zone1','Zone2','Zone3','Zone4'])
-#        a[i] = someData
-        
+#        tvec_a = [x for x in tvec if tvec.month == i]
 
-if per
+    data_a = pd.DataFrame(data = data_a)
+
+while True

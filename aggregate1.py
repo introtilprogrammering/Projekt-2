@@ -1,7 +1,7 @@
-from dataload import load_measurements
+
 import pandas as pd
 import numpy as np
-
+from dataload import load_measurements
 [tvec,data] = load_measurements("2008.csv", "drop")
 
 
@@ -26,7 +26,7 @@ monthData  = [31,29,31,30,31,30,31,31,30,31,30,31]
 #For dage
 data_A = [None]*12
 tvec_A =[None]*12
-   
+
 for i in range (12):
     someData = data[tvec.month == i+1]
     someTvec = tvec[tvec.month == i+1]

@@ -1,8 +1,9 @@
 #Import datafil
 
-import pandas as pd
+
 
 def load_measurements(fileName, fmode):
+    import pandas as pd
     #Ved at bruge pandas læses datafilen
     data = pd.read_csv(fileName, header = None)
     
@@ -49,5 +50,5 @@ def load_measurements(fileName, fmode):
     
     return (tvec, data)
 
-#[tvec,data] = load_measurements("2008.csv", "forward fill")
+#[tvec,data] = load_measurements("2008.csv", "drop")
 

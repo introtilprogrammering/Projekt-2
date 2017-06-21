@@ -1,51 +1,96 @@
-## Data aggregation function
 
-#slettes
-import matplotlib.pyplot as plt
 from dataload import load_measurements
 import pandas as pd
 import numpy as np
 
-[tvec,data] = load_measurements("2008.csv", "drop")
-periode = 'day'
+[tvec,data] = load_measurements("testdata1.csv", "drop")
+
+
+#For måneder
+tvec_a =[None]*12
+data_a = [None]*12
+         
+for i in range (12):
+    someData = data[tvec.iloc[:,1] == i+1]
+    someTvec = tvec[tvec.iloc[:,1] == i+1]
+    data_a[i] = someData.sum(axis = 0)
+    tvec_a[i] = someTvec.iloc[0]
+
+data_a = pd.DataFrame(data_a)
+tvec_a = pd.DataFrame(tvec_a)
+
+#.reset_index(drop=True)
+
+
+#For dage
+data_a = [None]*366
+tvec_a = [None]*366
+current_day = 0
+
+for i in range (12):
+    someData = data[tvec.iloc[:,1] == i+1]
+    someTvec = tvec[tvec.iloc[:,1] == i+1]
+    for j in range(31):
+        someDataDay = someData[someTvec.iloc[:,2] == j+1]
+        someTvecDay = someTvec[someTvec.iloc[:,2] == j+1]
+        if not someTvecDay.empty:
+            data_a[current_day] = someDataDay.sum(axis = 0)
+            tvec_a[current_day] = someTvecDay.iloc[0]
+            current_day = current_day + 1
+            
+data_a = np.array(data_a)
+tvec_a = np.array(tvec_a)
+tvec_a = pd.DataFrame(tvec_a, columns = ['year','month','day','hour','minut','seconds'])
+data_a = pd.DataFrame(data_a, columns = ['zone1','zone2','zone3','zone4'])
+
+
+
+#For timer 
+data_aa = [None]*366
+tvec_aa = [None]*366
+data_a = [None]*366*24
+tvec_a = [None]*366*24
+current_hour = 0
+         
+for i in range (12):
+    someData = data[tvec.iloc[:,1] == i+1]
+    someTvec = tvec[tvec.iloc[:,1] == i+1]
+    for j in range(31):
+        someDataDay = someData[someTvec.iloc[:,2] == j+1]
+        someTvecDay = someTvec[someTvec.iloc[:,2] == j+1]       
+        if not someTvecDay.empty:
+            for k in range(24):
+                someDataHour = someDataDay[someTvecDay.iloc[:,3] == k]
+                someTvecHour = someTvecDay[someTvecDay.iloc[:,3] == k]
+                data_a[current_hour] = someDataHour.sum(axis = 0)
+                tvec_a[current_hour] = someTvecHour.iloc[0]
+                current_hour = current_hour + 1
+          
+data_a = np.array(data_a)
+tvec_a = np.array(tvec_a)
+tvec_a = pd.DataFrame(tvec_a, columns = ['year','month','day','hour','minut','seconds'])
+data_a = pd.DataFrame(data_a, columns = ['zone1','zone2','zone3','zone4'])
 
 
 
 
-if periode == 'month':
-    tvec_a =[None]*12
-    data_a = [None]*12
-    for i in range (12):
-        someData = data[tvec.month == i+1]
-        someTvec = tvec[tvec.month == i+1]
-        data_a[i] = someData.sum(axis = 0)
-        tvec_a[i] = someTvec.iloc[0].values.tolist()
+#For hour of the day 
+data_a = [None]*24
+tvec_a = [None]*24
 
-    data_a = pd.DataFrame(data = data_a)
-    tvec_a = pd.DataFrame(tvec_a)
+for i in range(24):
+    someDataHourOfDay = data[tvec.iloc[:,3] == i]
+    someTvecHourOfDay = tvec[tvec.iloc[:,3] == i]
+    data_a[i] = someDataHourOfDay.mean(axis = 0)
+    tvec_a[i] = someTvecHourOfDay.iloc[0]
+
+data_a = np.array(data_a)
+tvec_a = np.array(tvec_a)
+tvec_a = pd.DataFrame(tvec_a, columns = ['year','month','day','hour','minut','seconds'])
+data_a = pd.DataFrame(data_a, columns = ['zone1','zone2','zone3','zone4'])    
 
 
-if periode == 'day':
-    data_A = [None]*12
-    tvec_a =[None]*31
-    data_aa = [None]*31
-    tvec_aa =  [None]*31
-    for i in range (12):
-        someData = data[tvec.month == i+1]
-        someTvec = tvec[tvec.month == i+1]
-        tvec_A =[None]*31
-        data_aa = [None]*31
-        for j in range(31):
-            someDataDay = someData[someTvec.day == j+1].values
-            someTvecDay = someTvec[someTvec.day == j+1].values
-            someTvecDay  = pd.DataFrame(someTvecDay)
-            data_aa[j] = someDataDay.sum(axis = 0)
-            tvec_aa[j] = someTvecDay.iloc[0]
-        data_A[i] = data_aa
-        tvec_A[i] = tvec_aa
-    data_A = pd.DataFrame(data = data_A)
-    tvec_A = pd.DataFrame(tvec_a)
-    
-    data_a = np.stack(np.array(data_A).flatten())
-    data_a = pd.DataFrame(data = data_a, columns = ["zone1","zone2","zone3","zone4"])
-    data_a = data_a.loc[~(data_a==0).all(axis=1)]
+
+
+
+
